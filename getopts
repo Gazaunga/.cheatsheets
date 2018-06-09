@@ -1,0 +1,34 @@
+ARGS=`getopt -o dph -l help,debug,jdk-update,jdk-retreat,tomcat-update,tomcat-retreat,apache-update,apache-retreat,tomcat-conn-update -- "$@"`
+[ $? -ne 0 ] && usage
+    eval set -- ${ARGS}
+
+    while [ true ]
+    do
+        case $1 in
+            --debug)
+                IS_DEBUG="true"
+                debug=1
+                ;;
+            -h|--help)
+                IS_HELP="true"
+                ;;
+            --jdk-update|--jdk-retreat|--tomcat-update|--tomcat-retreat|--apache-update|--apache-retreat|--tomcat-conn-update)
+                IS_OPERATION="$1"
+                ;;
+            #-c|--change)
+             #   IS_OPERATION="change"
+                #CONFIG_FILE="$2"
+                #shift
+              #  ;;
+            --)
+                #shift
+                break
+                ;;
+            *)
+                usage
+                ;;
+        esac
+        shift
+    done
+    [ "${IS_HELP}" == "true" ] && usage
+    [ "${IS_DEBUG}" == "true" ] && set -x
